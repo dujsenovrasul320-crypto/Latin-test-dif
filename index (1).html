@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Квиз: латинские медицинские термины</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg1:#6a3df0;--bg2:#b83dd8;--card:#fff;--text:#22204a;--muted:#6f6c96;--line:#e4e1f7;--ok:#1fb86b;--okbg:#e3f8ee;--bad:#e5484d;--badbg:#fdeaea;--accent:#6a3df0;--track:rgba(255,255,255,.3);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#2c1b7a;--bg2:#6b1f86;--card:#1f1d3a;--text:#f1efff;--muted:#a9a6d1;--line:#3a3768;--okbg:#10382a;--badbg:#411b20;--accent:#9a7bff}}
+:root[data-theme="dark"]{--bg1:#2c1b7a;--bg2:#6b1f86;--card:#1f1d3a;--text:#f1efff;--muted:#a9a6d1;--line:#3a3768;--okbg:#10382a;--badbg:#411b20;--accent:#9a7bff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2)) fixed;background-color:var(--bg1);color:var(--text);padding:14px}
+.wrap{max-width:720px;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#fff;font-weight:700;margin-bottom:10px;font-size:15px}
+.pill{background:rgba(255,255,255,.2);padding:7px 14px;border-radius:999px}
+.bar{height:12px;background:var(--track);border-radius:99px;overflow:hidden;margin-bottom:16px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd84d,#ff9f43);border-radius:99px;transition:width .5s ease}
+.card{background:var(--card);border-radius:24px;padding:22px;box-shadow:0 14px 40px rgba(0,0,0,.25);animation:in .4s ease}
+@keyframes in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+h1{margin:0 0 6px;font-size:28px}
+.q{font-size:clamp(21px,5.2vw,28px);font-weight:800;line-height:1.3;margin:4px 0 20px}
+.opts{display:grid;gap:12px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;font-size:clamp(18px,4.6vw,22px);font-weight:700;color:var(--text);background:var(--card);border:3px solid var(--line);border-radius:16px;padding:14px 16px;min-height:62px;cursor:pointer;transition:transform .15s,border-color .2s,background .2s;-webkit-appearance:none;appearance:none}
+.opt:active:not(:disabled){transform:scale(.98)}
+@media(hover:hover){.opt:hover:not(:disabled){border-color:var(--accent);transform:translateY(-2px)}}
+.opt .l{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:17px}
+.opt:nth-child(1) .l{background:#e5484d}.opt:nth-child(2) .l{background:#3b82f6}.opt:nth-child(3) .l{background:#f59e0b}.opt:nth-child(4) .l{background:#1fb86b}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--okbg);border-color:var(--ok);animation:pop .5s}
+.opt.bad{background:var(--badbg);border-color:var(--bad);animation:shake .45s}
+.opt.dim{opacity:.55}
+.opt .m{margin-left:auto;font-size:24px;font-weight:900}
+.opt.ok .m{color:var(--ok)}.opt.bad .m{color:var(--bad)}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.fb{margin-top:16px;padding:14px 16px;border-radius:14px;font-size:20px;font-weight:800;animation:in .3s}
+.fb.ok{background:var(--okbg);color:var(--ok)}.fb.bad{background:var(--badbg);color:var(--bad)}
+.fb small{display:block;font-size:15px;font-weight:600;margin-top:4px;color:var(--text)}
+.btn{display:block;width:100%;margin-top:16px;font:inherit;font-size:20px;font-weight:800;color:#fff;background:linear-gradient(135deg,#6a3df0,#b83dd8);border:0;border-radius:16px;padding:16px;min-height:58px;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.2);-webkit-appearance:none;appearance:none}
+.btn:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.2)}
+.hide{display:none!important}
+.center{text-align:center}
+.sub{color:var(--muted);font-size:17px;margin:0 0 20px}
+.ring{width:170px;height:170px;border-radius:50%;margin:10px auto 18px;display:grid;place-items:center;background:conic-gradient(var(--ok) calc(var(--p)*1%),var(--line) 0)}
+.ring div{width:134px;height:134px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:40px;font-weight:900}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0}
+.stat{border-radius:14px;padding:12px 6px;font-weight:800}
+.stat b{display:block;font-size:28px}.stat span{font-size:13px;color:var(--muted);font-weight:700}
+.s1{background:var(--okbg)}.s1 b{color:var(--ok)}.s2{background:var(--badbg)}.s2 b{color:var(--bad)}.s3{background:var(--line)}
+.emoji{font-size:60px;animation:pop .8s}
+.conf{position:fixed;top:-20px;width:10px;height:14px;border-radius:2px;pointer-events:none;animation:fall linear forwards;z-index:9}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.8}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <section id="start" class="card center">
+  <div class="emoji">🩺</div>
+  <h1>Квиз: латинские медицинские термины</h1>
+  <p class="sub">50 вопросов · мгновенный ответ после каждого выбора</p>
+  <button class="btn" id="go" type="button">Начать квиз</button>
+ </section>
+
+ <section id="quiz" class="hide">
+  <div class="top"><span class="pill" id="num"></span><span class="pill" id="score"></span></div>
+  <div class="bar"><i id="fill"></i></div>
+  <div class="card" id="qcard">
+   <div class="q" id="qtext"></div>
+   <div class="opts" id="opts"></div>
+   <div id="fb" class="fb hide" aria-live="polite"></div>
+   <button class="btn hide" id="next" type="button">Следующий вопрос →</button>
+  </div>
+ </section>
+
+ <section id="result" class="card center hide">
+  <div class="emoji" id="remoji"></div>
+  <h1 id="rtitle"></h1>
+  <div class="ring" id="ring"><div id="rscore"></div></div>
+  <p class="sub" id="rpct"></p>
+  <div class="stats">
+   <div class="stat s1"><b id="rc"></b><span>Верно</span></div>
+   <div class="stat s2"><b id="rw"></b><span>Неверно</span></div>
+   <div class="stat s3"><b id="rt"></b><span>Всего</span></div>
+  </div>
+  <button class="btn" id="restart" type="button">Пройти заново</button>
+ </section>
+</div>
+<script>
+var QUESTIONS=[{"q":"Латынша «тіл – язык»:","o":["lingua","labium","larynx","linguae"],"a":0},{"q":"Латынша «ауыз – рот»:","o":["nasus","os","dens","facies"],"a":1},{"q":"Латынша «көз – глаз»:","o":["oculus","auris","nasus","caput"],"a":0},{"q":"Латынша «құлақ – ухо»:","o":["oculus","auris","cor","os"],"a":1},{"q":"Латынша «бүйрек – почка»:","o":["hepar","ren","pulmo","lien"],"a":1},{"q":"Латынша «бауыр – печень»:","o":["ren","cor","hepar","ventriculus"],"a":2},{"q":"Латынша «жүрек – сердце»:","o":["cor","pulmo","hepar","uterus"],"a":0},{"q":"Латынша «өкпе – легкое»:","o":["pulmo","ren","gaster","cor"],"a":0},{"q":"Латынша «ми – мозг»:","o":["cerebrum","cranium","medulla","caput"],"a":0},{"q":"Латынша «сүйек – кость»:","o":["os, ossis","dens","cartilago","articulatio"],"a":0},{"q":"Латынша «тіс – зуб»:","o":["lingua","dens","labium","gingiva"],"a":1},{"q":"Латынша «мұрын – нос»:","o":["nasus","auris","oculus","facies"],"a":0},{"q":"Латынша «мойын – шея»:","o":["collum","cervix","caput","thorax"],"a":1},{"q":"Латынша «кеуде – грудь»:","o":["abdomen","thorax","pelvis","dorsum"],"a":1},{"q":"Латынша «іш – живот»:","o":["abdomen","thorax","pelvis","femur"],"a":0},{"q":"Латынша «сан – бедро»:","o":["cruris","femur","tibia","humerus"],"a":1},{"q":"Латынша «иық – плечо»:","o":["humerus","femur","radius","ulna"],"a":0},{"q":"Латынша «білек – предплечье»:","o":["manus","antebrachium","brachium","cubitus"],"a":1},{"q":"Латынша «қол – кисть»:","o":["manus","pes","cranium","digitus"],"a":0},{"q":"Латынша «аяқ – стопа»:","o":["manus","pes","crus","femur"],"a":1},{"q":"Латынша «саусақ – палец»:","o":["digitus","articulatio","manus","unguis"],"a":0},{"q":"Латынша «қан – кровь»:","o":["sanguis","liquor","plasma","serum"],"a":0},{"q":"Латынша «жүйке – нерв»:","o":["vena","nervus","arteria","ductus"],"a":1},{"q":"Латынша «артерия – артерия»:","o":["vena","arteria","nervus","capillare"],"a":1},{"q":"Латынша «вена – көктамыр»:","o":["arteria","vena","aorta","nervus"],"a":1},{"q":"Латынша «без – железа»:","o":["glandula","vesica","tunica","cavitas"],"a":0},{"q":"Латынша «қуық – мочевой пузырь»:","o":["vesica","uterus","vagina","ren"],"a":0},{"q":"Латынша «жатыр – матка»:","o":["uterus","ovarium","vagina","cervix"],"a":0},{"q":"Латынша «қынап – влагалище»:","o":["uterus","ovarium","vagina","vulva"],"a":2},{"q":"Латынша «асқазан – желудок»:","o":["intestinum","ventriculus","hepar","gaster"],"a":1},{"q":"«Қабыну» мағынасын білдіретін жұрнақ:","o":["-itis","-oma","-osis","-algia"],"a":0},{"q":"«Ісік» мағынасын білдіретін жұрнақ:","o":["-itis","-oma","-algia","-rrhagia"],"a":1},{"q":"«Ауырсыну» мағынасын білдіретін жұрнақ:","o":["-algia","-itis","-oma","-emia"],"a":0},{"q":"«Қан» мағынасын білдіретін грек-латын терминэлементі:","o":["osteo-","haemo-","gastro-","dermato-"],"a":1},{"q":"«Сүйек» мағынасын білдіретін терминэлемент:","o":["osteo-","nephro-","cardio-","entero-"],"a":0},{"q":"«Бүйрек» мағынасын білдіретін терминэлемент:","o":["hepato-","nephro-","gastro-","arthro-"],"a":1},{"q":"«Бауыр» мағынасын білдіретін терминэлемент:","o":["cardio-","hepato-","dermato-","oto-"],"a":1},{"q":"«Көз» мағынасын білдіретін терминэлемент:","o":["ophthalmo-","oto-","rhino-","stomato-"],"a":0},{"q":"«Құлақ» мағынасын білдіретін терминэлемент:","o":["oto-","odonto-","cephalo-","dermato-"],"a":0},{"q":"«Мұрын» мағынасын білдіретін терминэлемент:","o":["rhino-","gastro-","cardio-","nephro-"],"a":0},{"q":"«Асқазан» мағынасын білдіретін терминэлемент:","o":["gastro-","entero-","hepato-","nephro-"],"a":0},{"q":"«Ішек» мағынасын білдіретін терминэлемент:","o":["gastro-","entero-","cardio-","osteo-"],"a":1},{"q":"«Жүрек» мағынасын білдіретін терминэлемент:","o":["cardio-","nephro-","hepato-","pneumo-"],"a":0},{"q":"«Тері» мағынасын білдіретін терминэлемент:","o":["dermato-","osteo-","gastro-","haemo-"],"a":0},{"q":"«Өкпе» мағынасын білдіретін терминэлемент:","o":["pneumo-","cardio-","nephro-","entero-"],"a":0},{"q":"«Бас» мағынасын білдіретін терминэлемент:","o":["cephalo-","rhino-","oto-","arthro-"],"a":0},{"q":"«Буын» мағынасын білдіретін терминэлемент:","o":["arthro-","osteo-","myo-","entero-"],"a":0},{"q":"«Бұлшықет» мағынасын білдіретін терминэлемент:","o":["myo-","cardio-","nephro-","gastro-"],"a":0},{"q":"«Тыныс алу» мағынасын білдіретін терминэлемент:","o":["pneumo-","haemato-","uro-","oto-"],"a":0},{"q":"«Зәр» мағынасын білдіретін терминэлемент:","o":["uro-","gastro-","cardio-","dermato-"],"a":0}];
+(function(){
+var $=function(i){return document.getElementById(i)};
+var idx=0,score=0,answered=false,order=[];
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function show(id){['start','quiz','result'].forEach(function(s){$(s).classList.toggle('hide',s!==id)});window.scrollTo(0,0)}
+function start(){idx=0;score=0;show('quiz');render()}
+function render(){
+ answered=false;var q=QUESTIONS[idx],total=QUESTIONS.length;
+ $('num').textContent='Вопрос '+(idx+1)+' из '+total;
+ $('score').textContent='Счёт: '+score;
+ $('fill').style.width=(idx/total*100)+'%';
+ $('qtext').textContent=q.q;
+ $('fb').className='fb hide';$('next').classList.add('hide');
+ $('next').textContent=idx===total-1?'Результаты 🏁':'Следующий вопрос →';
+ var box=$('opts');box.innerHTML='';
+ order=shuffle([0,1,2,3]);
+ order.forEach(function(orig,pos){
+  var b=document.createElement('button');b.type='button';b.className='opt';b.setAttribute('data-orig',orig);
+  var l=document.createElement('span');l.className='l';l.textContent='ABCD'.charAt(pos);
+  var t=document.createElement('span');t.textContent=q.o[orig];
+  var m=document.createElement('span');m.className='m';
+  b.appendChild(l);b.appendChild(t);b.appendChild(m);
+  b.addEventListener('click',function(){pick(orig)});
+  box.appendChild(b);
+ });
+ var c=$('qcard');c.style.animation='none';void c.offsetWidth;c.style.animation='';
+}
+function pick(orig){
+ if(answered)return;answered=true;
+ var q=QUESTIONS[idx],right=orig===q.a,fb=$('fb');
+ var btns=$('opts').children;
+ for(var i=0;i<btns.length;i++){
+  var b=btns[i],o=+b.getAttribute('data-orig');b.disabled=true;
+  if(o===q.a){b.classList.add('ok');b.lastChild.textContent='✓'}
+  else if(o===orig){b.classList.add('bad');b.lastChild.textContent='✗'}
+  else b.classList.add('dim');
+ }
+ if(right){score++;fb.className='fb ok';fb.textContent='✓ Правильный ответ!';confetti()}
+ else{fb.className='fb bad';fb.textContent='✗ Неправильный ответ!';
+  var s=document.createElement('small');s.textContent='Правильный ответ: '+q.o[q.a];fb.appendChild(s)}
+ $('score').textContent='Счёт: '+score;
+ $('fill').style.width=((idx+1)/QUESTIONS.length*100)+'%';
+ $('next').classList.remove('hide');
+}
+function confetti(){
+ var cols=['#ffd84d','#1fb86b','#3b82f6','#e5484d','#b83dd8'];
+ for(var i=0;i<22;i++){var d=document.createElement('i');d.className='conf';
+  d.style.left=(Math.random()*100)+'vw';d.style.background=cols[i%5];
+  d.style.animationDuration=(1.2+Math.random()*1.2)+'s';document.body.appendChild(d);
+  (function(x){setTimeout(function(){if(x.parentNode)x.parentNode.removeChild(x)},2600)})(d)}
+}
+function next(){
+ if(!answered)return;
+ if(idx<QUESTIONS.length-1){idx++;render()}else finish();
+}
+function finish(){
+ var n=QUESTIONS.length,pct=Math.round(score/n*100);
+ $('rscore').textContent=score+'/'+n;$('rpct').textContent=pct+'%';
+ $('ring').style.setProperty('--p',pct);
+ $('rc').textContent=score;$('rw').textContent=n-score;$('rt').textContent=n;
+ $('remoji').textContent=pct>=90?'🏆':pct>=70?'🎉':pct>=50?'👍':'📚';
+ $('rtitle').textContent=pct>=90?'Отлично!':pct>=70?'Молодец!':pct>=50?'Неплохо!':'Нужно повторить!';
+ show('result');if(pct>=70)confetti();
+}
+$('go').addEventListener('click',start);
+$('next').addEventListener('click',next);
+$('restart').addEventListener('click',start);
+window.__quiz={Q:QUESTIONS};
+})();
+</script>
+</body>
+</html>
